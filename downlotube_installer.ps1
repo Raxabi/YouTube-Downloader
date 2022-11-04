@@ -1,5 +1,7 @@
 Clear-Host;
 
+Get-Command python
+
 $work_dir = ($HOME + "\.downlotube");
 
 New-Item -Path $work_dir -ItemType "directory";
@@ -38,8 +40,6 @@ if (-not (Test-Path -Path $ruta_musica)) {
 }
 
 $ruta_musica = Resolve-Path $ruta_musica;
-
-Write-Host $ruta_musica;
 
 [System.Environment]::SetEnvironmentVariable("musica", $ruta_musica, "User");
 [System.Environment]::SetEnvironmentVariable("Path", ($path_environment_variable += $work_dir), "User");
