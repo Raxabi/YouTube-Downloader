@@ -22,19 +22,26 @@ try {
     $Lib_Stream.Dispose();
 }
 
-$nombre_variable = Read-Host "Introduce el nombre de la variable de entorno";
+Write-Host "El nombre de la variable de entorno sera: 'musica'";
 
 Set-Location -Path ($HOME + "/desktop/");
 
-$ruta_actual = Get-Location;
-Write-Host "Ten en cuenta que tu ruta actual es: " $ruta_actual;
+Write-Host "`nTen en cuenta que tu ruta actual es: " (Get-Location) "`n";
 
 $ruta_musica = Read-Host "Introduce una ruta para descargar tu musica";
 
 $path_environment_variable = [System.Environment]::GetEnvironmentVariable("Path", "User");
 
+if (-not (Test-Path -Path $ruta_musica)) {
+    Write-Host "`nLa ruta no existe!`nNo te preocupes, el instalador creara la ruta introducida por ti :D";
+    New-Item -Path $ruta_musica -ItemType "directory";
+}
+
 $ruta_musica = Resolve-Path $ruta_musica;
-[System.Environment]::SetEnvironmentVariable($nombre_variable, $ruta_musica, "User");
-[System.Environment]::SetEnvironmentVariable("Path", ($path_environment_variable += ($work_dir)), "User");
+
+Write-Host $ruta_musica
+
+[System.Environment]::SetEnvironmentVariable("musica", $ruta_musica, "User");
+[System.Environment]::SetEnvironmentVariable("Path", ($path_environment_variable += $work_dir), "User");
 
 python -m pip install pytube;
